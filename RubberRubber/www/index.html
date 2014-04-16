@@ -27,10 +27,47 @@
         <title>RubberRubber</title>
     </head>
     <body>
-        <div class="app">
+ 	<script>
+	   function tireSize(form)
+	   {
+	        var targetCircumference = 2 * Math.PI * (form.rimSize.value * 25.4 / 2 + form.aspectP.value / 100 * form.treadW.value);
+ 		var testCircumference;
+		var foundTread;
+		var currentTread;
+		var variance = 0;
+		var output = document.getElementById("results");
+		   for (var j = 5; j < 105; j += 5)
+		   {
+			foundTread = (((targetCircumference / (2 * Math.PI)) - (form.targetRimSize.value * 25.4 / 2)) / (j / 100));
+			if (foundTread > 505 || foundTread < 5)
+			   foundTread = 0;
+			   else
+			   {
+			      currentTread = 5 * Math.round(foundTread / 5);
+		              while (variance <= form.tolerance.value)
+			      {
+				testCircumference =  2 * Math.PI * (form.targetRimSize.value * 25.4 / 2 + j / 100 * currentTread);
+				variance = (testCircumference - targetCircumference)/targetCircumference*100;
+				output.innerHTML = output.innerHTML + ' ' + currentTread + '/' +  j + 'R' + form.targetRimSize.value ;
+				currentTread = currentTread + 5;
+			      }
+			      currentTread = 5 * Math.round(foundTread / 5);
+			      variance = 0;
+		              while (variance > -1*form.tolerance.value)
+			      {
+				currentTread = currentTread - 5;
+				testCircumference =  2 * Math.PI * (form.targetRimSize.value * 25.4 / 2 + j / 100 * currentTread);
+				variance = (testCircumference - targetCircumference)/targetCircumference*100;
+				output.innerHTML = output.innerHTML + ' ' + currentTread + '/' +  j + 'R' + form.targetRimSize.value ;
+			      }
+		   }
+		   }
+	   }
+	</script>
+       <div class="app">
 	   <form>
-		Tire Size: 
-		<select name="Tread"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
+		Current Tire Size: 
+		<select name="Tread" id="treadW"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
                                      <option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option>
                                      <option value="50">50</option><option value="55">55</option><option value="60">60</option><option value="65">65</option>
                                      <option value="70">70</option><option value="75">75</option><option value="80">80</option><option value="85">85</option>
@@ -56,13 +93,13 @@
                                      <option value="470">470</option><option value="475">475</option><option value="480">480</option><option value="485">485</option>
                                      <option value="490">490</option><option value="495">495</option><option value="500">500</option><option value="505">505</option>
               </select>
-              <select name="Aspect"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
+              <select name="Aspect" id="aspectP"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option>
                                    <option value="30">30</option><option value="35">35</option><option value="40">40</option><option value="45">45</option>
                                    <option value="50">50</option><option value="55">55</option><option value="60">60</option><option value="65">65</option>
                                    <option value="70">70</option><option value="75" selected>75</option><option value="80">80</option><option value="85">85</option>
                                    <option value="90">90</option><option value="95">95</option><option value="100">100</option><option value="105">105</option>
 	      </select>	
-              <select name="Rim"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+              <select name="Rim" id="rimSize"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
                                    <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option>
                                    <option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option>
                                    <option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option>
@@ -72,10 +109,29 @@
                                    <option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option>
                                    <option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option>
                                    <option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option>
-
+	      </select>
+	      Desired Rim Size:
+              <select name="TargetRim" id="targetRimSize"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                   <option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                                   <option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option>
+                                   <option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option>
+                                   <option value="18" selected>18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option>
+                                   <option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option>
+                                   <option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option>
+                                   <option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option>
+                                   <option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option>
+                                   <option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option>
+	      </select>
+	      Tolerance:
+	      <select name="Tolerance" id="tolerance"><option value="0">Exact</option><option value="0.5">+/- 0.5%</option><option value="1">+/- 1%</option><option value="2">+/- 2%</option><option value="3">+/- 3%</option>
+	      </select>
+	      <button type="button" onclick="tireSize(this.form)">Calculate</button>
            </form>
         </div>
-        <script type="text/javascript" src="js/index.js"></script>
+	<div name="results" id="results">
+	   <p>Compatible tire sizes:</p>
+	</div>
+     <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
         </script>
